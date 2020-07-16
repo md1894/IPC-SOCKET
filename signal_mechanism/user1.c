@@ -18,62 +18,52 @@ struct memory {
 
 struct memory* shmptr; 
 
-// handler function to print message received from user2 
-
+// handler function to print message received from user2
+// when user2 passes signal SIGUSR1 this function gets executed
 void handler(int signum) 
 { 
 	// if signum is SIGUSR1, then user 1 is receiving a message from user2 
-
 	if (signum == SIGUSR1) { 
 		printf("Received User2: "); 
 		puts(shmptr->buff); 
 	} 
 } 
 
+//user1 process
 int main() 
 { 
 	// process id of user1 
-
 	int pid = getpid(); 
-
 	int shmid; 
-
-	// key value of shared memory 
+	// key value of shared memory
+	// note that this key value for shared mem will be same in process 1 and 2
 	int key = 12345;
-
 	// shared memory create 
 	shmid = shmget(key, sizeof(struct memory), IPC_CREAT | 0666); 
-
 	// attaching the shared memory 
-
 	shmptr = (struct memory*)shmat(shmid, NULL, 0); 
-
 	// store the process id of user1 in shared memory 
 	shmptr->pid1 = pid; 
 	shmptr->status = NotReady; 
+	// registering SIGUSR1 for this process (i.e. user1)
+	// handler :--> callback function that gets executed when user1 receives
+	//              SIGUSR1
+	signal(SIGUSR1, handler);
 
-	// calling the signal function using signal type SIGUSER1 
-	signal(SIGUSR1, handler); 
-
-	while (1) { 
+	while (1) {
 		while (shmptr->status != Ready) 
 			continue; 
 		sleep(1); 
-
 		// taking input from user1 
-
 		printf("User1: "); 
 		fgets(shmptr->buff, 100, stdin); 
-
 		shmptr->status = FILLED; 
-
-		// sending the message to user2 using kill function 
-
+		// sending the message to user2 using kill function
 		kill(shmptr->pid2, SIGUSR2); 
 	} 
-
+	// detach shared memory
 	shmdt((void*)shmptr); 
 	shmctl(shmid, IPC_RMID, NULL); 
 	return 0; 
-} 
+}
 
