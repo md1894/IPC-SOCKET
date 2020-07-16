@@ -1,0 +1,9 @@
+in this program how to register a signal for a process and 
+how to communicate to another process using signal mechanism is demonstrated
+
+user1 will send a simple to user2 , vice versa
+its like a simple talk between 2 person
+
+takeways :: -->
+               1. "signal" is a 'C' Library function that registers a particular signal for the process
+               2. "kill" is a 'C' Library function that is use to send a signal to other process
