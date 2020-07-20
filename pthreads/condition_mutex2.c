@@ -53,6 +53,7 @@ int main( int argc, char** argv )
 
     for( int t=0; t<NUMTHREADS; t++ )
         pthread_create( &threads[t], NULL, ThreadEntry, (void*)(long)t );
+
     // we're going to test "done" so we need the mutex for safety
     pthread_mutex_lock( &mutex );
     // are the other threads still busy?
