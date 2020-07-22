@@ -5,6 +5,10 @@ using namespace std;
 
 extern struct data_info db_info;
 
+/*
+init_db() and close_db() are compulsory to call at start and end respectively
+*/
+
 int main(){
 	init_db();
 	char un [7], pwd [7];

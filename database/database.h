@@ -16,6 +16,7 @@ void init_db();
 void getDbDetails();
 void getUsr(char* buffer,USER &us);
 vector<USER> getList();
+void update_mapping();
 void close_db();
 bool findUser(char* usr);
 void addUser(char* un, char* pwd);
