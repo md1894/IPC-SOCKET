@@ -12,8 +12,6 @@ typedef struct user{
 	char password [7];
 } USER;
 
-
-struct data_info getDB_DET();
 void init_db();
 void getDbDetails();
 void getUsr(char* buffer,USER &us);

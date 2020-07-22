@@ -16,16 +16,13 @@ void init_db(){
 	}
 }
 
-struct data_info getDB_DET(){
-	return db_info;
-}
 
 void getDbDetails(){
 	FILE* fp = fopen("user.txt", "r+");
 	char buffer [500];
 	int total_rcd = 0;
 	if(fp){
-		while(fgets(buffer, 20, fp)){
+		while(fgets(buffer, 500, fp)){
 			total_rcd++;
 		}
 		db_info.total_records = total_rcd;
